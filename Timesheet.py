@@ -1,3 +1,6 @@
+
+
+
 def sequence(date,month):
     """
     Creates a list based on the startdate varible in the function Hours
@@ -17,6 +20,9 @@ def sequence(date,month):
     
     i = 0
 
+    if date > 31:
+        date = int(input("Invalid date. Pick a valid date between 1-31.\n"))
+    
     if month in [1,3,5,7,8,10,12]:
         new_list = ((list1[(date-1):(date+4)]) + (list1[(date+6):(date+12)]))
         
@@ -42,36 +48,56 @@ def Hours():
 
     Returns: A copiable form to email with accurate times of hours worked
     """
+    
     hours = []
+    times = []
     startDate = int(input("What is the start date of this timesheet?\n"))
     month = int(input("What month is it?\n"))
-    hoursPerFortnight = int(input("How many hours did you work over these two weeks?\n"))
-
-    hoursPerDay = (hoursPerFortnight / 10)
 
     dates = sequence(startDate,month)
+    
+    i = 0
+    total1 = 0
+    total2 = 0
+    grandTotal = 0
+
+    
+    while i < 10:
+        startTime = float(input("What time did you start work on " + dates[i] + "?\n"))
+        hoursWorked = float(input("How many hours did you work?\n"))
+        endTime = float(startTime + hoursWorked)
+        
+        if endTime >= 13:
+            endTime = endTime - 12
+
+        if (endTime % 1) != 0:
+            endTime = (endTime // 1) + .30
+            
+        times += [(startTime, endTime)]
+        hours += [hoursWorked]
+        
+        if  i < 5:
+            total1 += hoursWorked
+
+        if 5 <= i < 10:
+            total2 += hoursWorked
+
+        grandTotal += hoursWorked
+
+        i += 1
+
+
 
     for i in range(0,len(dates)):
-        print(dates[i])
+        print("\n" + "\n" + dates[i] + " " + str(times[i][0]) + "0 - " + str(times[i][1]) + "0 " + str(hours[i]) + " hours")
+        if i == 4:
+            print("Total: " + str(total1) + " Hours" + "\n")
+
+        if i == 9:
+            print("Total: " + str(total2) + " Hours" + "\n")
+
+    print("Grand Total:" + str(grandTotal))
 
     
     
-    """
-    Mon 12: 10 - 1:30 3.5 hours
-    Tue 13: 2:00 - 4:30 2.5 Hours
-    Wed 14: 12 - 4:00 4 Hours
-    Thur 15: 8:00-4:00 7.5 Hours
-    Fri 16: 9:30 - 1:30 4 Hours
-    Total: 21.5 Hours
-
-    Mon 19: 10:30 - 1:30 3 hours
-    Tue 20: 1:30 - 4:30 3 hours
-    Wed 21: 12 - 3:30 3.5 hours
-    Thur 22: 12 - 3:30 3.5 hours
-    Fri 23: 12 - 3:30 3.5 hours
-
-    Total: 16.5 Hours
-
-    Grand total: 38 Hours
-
-    """
+    
