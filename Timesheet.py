@@ -66,6 +66,9 @@ def Hours():
         startTime = float(input("What time did you start work on " + dates[i] + "?\n"))
         hoursWorked = float(input("How many hours did you work?\n"))
         endTime = float(startTime + hoursWorked)
+
+        if hoursWorked > 7.5:
+            hoursWorked = hoursWorked - 0.5
         
         if endTime >= 13:
             endTime = endTime - 12
